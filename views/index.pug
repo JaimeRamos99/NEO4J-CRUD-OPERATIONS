@@ -1,0 +1,49 @@
+extends layout.pug
+block hero
+    section.hero.is-dark.is-bold
+        .hero-body
+          .container
+                h1.title neo4j implementation
+                h2.subtitle CRUD operations with a oriented graph database    
+                
+block content
+  .container(style="flex:1; padding:30px;")
+    .columns.is-multiline
+      .colum.is-one-quarter
+         form(method='POST' action='/movie/add')
+          div.form-group
+            label(class='label' for='title') TITLE:
+            input#name.form-control(class='input' type='text', placeholder='title' name='title')
+          div.form-group
+            label(class='label' for='year') YEAR:
+            input.form-control(class='input' type='text', placeholder='year' name='year')
+            button.btn.btn-primary(class='button is-link' type='submit') CREATE MOVIE
+       
+
+      .colum.is-one-quarter
+           form(method='POST' action='/relation/add')
+            div.form-group
+              label(class='label' for='pelis') Node 1
+              select(class='select' name="pelis")
+                each movie in movies
+                  option(value=movie.id) #{movie.title}
+            div.form-group
+              label(class='label' for='relation') RELATIONSHIP TYPE
+              select(class='select' name="relation")
+                option(value='1') ACTED_IN
+                option(value='2') DIRECTED
+                option(value='3') FOLLOWS
+                option(value='4') PRODUCED
+                option(value='5') REVIEWED
+                option(value='6') WROTE
+            div.form-group
+              label(class='label' for='pelis') Node 1
+              select(class='select' name="pelis")
+                each movie in movies
+                  option(value=movie.id) #{movie.title}  
+            button.btn.btn-primary(class='button is-link' type='submit') CREATE RELATIONSHIP
+    
+            
+            
+            
+            

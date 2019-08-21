@@ -1,0 +1,19 @@
+{
+  "name": "neoexample",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": " nodemon index.js"
+  },
+  "author": "jrthelion99",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "*",
+    "morgan": "*",
+    "neo4j-driver": "*",
+    "nodemon": "^1.19.1",
+    "pug": "^2.0.4"
+  }
+}
