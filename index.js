@@ -14,32 +14,67 @@ const driver = neo4j.driver('bolt://localhost', neo4j.auth.basic('neo4j', '12345
 const session = driver.session();
 
 app.get('/', function (req, res) {
-    
+
     session.run('MATCH (n:Movie) return n UNION MATCH(n:Person) return n').then(function (result) {//MATCH (n:Movie) return n UNION MATCH(n:Person) return n
         let movies = [];
+        let actors = [];
         result.records.forEach(function (record) {
-            console.log(record._fields[0].properties.title)
-            if(record._fields[0].properties.title!==undefined){
+            if (record._fields[0].properties.title !== undefined) {
                 movies.push({
-                    id:record._fields[0].identity.low,
-                    title:record._fields[0].properties.title
+                    id: record._fields[0].identity.low,
+                    title: record._fields[0].properties.title
                 });
-            }else{
-                movies.push({
-                    id:record._fields[0].identity.low,
-                    title:record._fields[0].properties.name
+            } else {
+                actors.push({
+                    id: record._fields[0].identity.low,
+                    title: record._fields[0].properties.name
                 });
             }
         });
-        res.render('index',{movies:movies});
+        res.render('index', { movies: movies, actors: actors });
     }).catch(function (err) {
         console.log(err);
     });
 });
+
+
 app.post('/movie/add', function (req, res) {
     let title = req.body.title;
     let year = req.body.year;
     session.run('CREATE(n:Movie{title:{titleParam}, released:{yearParam}}) RETURN n.title', { titleParam: title, yearParam: year })
+        .then(function (result) {
+
+            res.redirect('/');
+        }
+        )
+        .catch(
+            function (err) {
+                console.log(err)
+            }
+        )
+})
+app.post('/person/add', function (req, res) {
+    let name = req.body.name;
+    let year = req.body.year;
+    session.run('CREATE(n:Person{name:{nameParam}, born:{yearParam}}) RETURN n.name', { nameParam: name, yearParam: year})
+        .then(function (result) {
+
+            res.redirect('/');
+        }
+        )
+        .catch(
+            function (err) {
+                console.log(err)
+            }
+        )
+})
+
+app.post('/relation/add', function (req, res) {
+    let node1 = req.body.nodo1;
+    let node2 = req.body.nodo2;
+    let relationship = req.body.relation;
+    let s = "MATCH(a),(b) WHERE a.name='" + node1 + "' AND b.title='" + node2 + "' CREATE (a)-[r:" + relationship + "]->(b) RETURN type(r)"
+    session.run(s)
         .then(function (result) {
             session.close();
             res.redirect('/');
@@ -51,6 +86,35 @@ app.post('/movie/add', function (req, res) {
             }
         )
 })
+
+app.post('/movie/delete', function (req, res) {
+    session.run("MATCH(n:Movie{title:{titu}}) DELETE n",{titu:req.body.titulo})
+        .then(function (result) {
+            session.close();
+            res.redirect('/');
+        }
+        )
+        .catch(
+            function (err) {
+                console.log(err)
+            }
+        )
+})
+
+app.post('/person/delete', function (req, res) {
+    session.run("MATCH(n:Person{name:{no}}) DELETE n",{no:req.body.nombre})
+        .then(function (result) {
+            session.close();
+            res.redirect('/');
+        }
+        )
+        .catch(
+            function (err) {
+                console.log(err)
+            }
+        )
+})
+
 app.listen(3000);
 console.log('server started on port 3000');
 module.exports = app;
