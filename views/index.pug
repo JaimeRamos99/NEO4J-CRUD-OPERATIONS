@@ -54,7 +54,31 @@ block content
                 each movie in movies
                   option(value=movie.title) #{movie.title} 
             button.btn.btn-primary(class='button is-link' type='submit') CREATE RELATIONSHIP
-        
+
+      .colum.is-one-quarter
+           form(method='POST' action='/relation/delete')
+            div.form-group
+              label(class='label' for='nodo1') PEOPLE
+              select(class='select' name="nodo1")
+                each actor in actors
+                  option(value=actor.title) #{actor.title}
+
+            div.form-group
+              label(class='label' for='relation') RELATIONSHIP TYPE
+              select(class='select' name="relation")
+                option(value='ACTED_IN') ACTED_IN
+                option(value='DIRECTED') DIRECTED
+                option(value='FOLLOWS') FOLLOWS
+                option(value='PRODUCED') PRODUCED
+                option(value='REVIEWED') REVIEWED
+                option(value='WROTE') WROTE
+            div.form-group
+              label(class='label' for='nodo2') MOVIES
+              select(class='select' name="nodo2")
+                each movie in movies
+                  option(value=movie.title) #{movie.title} 
+            button.btn.btn-primary(class='button is-link' type='submit') DELETE RELATIONSHIP      
+    .columns.is-multiline    
       .colum.is-one-quarter
            form(method='POST' action='/movie/delete')
             div.form-group
@@ -73,9 +97,38 @@ block content
                 each actor in actors
                   option(value=actor.title) #{actor.title} 
               button.btn.btn-primary(class='button is-link' type='submit') DELETE PERSON
+      
+      .colum.is-one-quarter
+           form(method='POST' action='/person/update')
+            div.form-group
+              label(class='label' for='name') PERSONS
+              select(class='select' name="name")
+                each actor in actors
+                  option(value=actor.title) #{actor.title}
 
-    
-            
-            
-            
-            
+            div.form-group
+              label(class='label' for='attr') ATTRIBUTE
+              select(class='select' name="attr")
+                option(value='born') BORN
+                option(value='name') NAME
+              label(class='label' for='dato') NEW VALUE
+              input.form-control(class='input' type='text', placeholder='NEW VALUE' name='dato')
+            button.btn.btn-primary(class='button is-link' type='submit') UPDATE DATA       
+      
+      .colum.is-one-quarter
+           form(method='POST' action='/movie/update')
+            div.form-group
+              label(class='label' for='title') MOVIES
+              select(class='select' name="title")
+                each movie in movies
+                  option(value=movie.title) #{movie.title}
+
+            div.form-group
+              label(class='label' for='attr') ATTRIBUTE
+              select(class='select' name="attr")
+                option(value='title') TITLE
+                option(value='released') RELEASED
+                option(value='tagline') TAGLINE
+              label(class='label' for='dato') NEW VALUE
+              input.form-control(class='input' type='text', placeholder='NEW VALUE' name='dato')
+            button.btn.btn-primary(class='button is-link' type='submit') UPDATE DATA 

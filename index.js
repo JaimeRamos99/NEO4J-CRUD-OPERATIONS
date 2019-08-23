@@ -53,10 +53,47 @@ app.post('/movie/add', function (req, res) {
             }
         )
 })
+
+app.post('/movie/update', function (req, res) {
+    let titulo = req.body.title;
+    let atributo = req.body.attr;
+    let nuevo = req.body.dato;
+    let s = "MATCH (n:Movie { title: '" + titulo + "' }) SET n." + atributo + "='" + nuevo + "' RETURN n"
+    session.run(s)
+        .then(function (result) {
+
+            res.redirect('/');
+        }
+        )
+        .catch(
+            function (err) {
+                console.log(err)
+            }
+        )
+})
+
+app.post('/person/update', function (req, res) {
+    let name = req.body.name;
+    let atributo = req.body.attr;
+    let nuevo = req.body.dato;
+    let s = "MATCH (n:Person { name: '" + name + "' }) SET n." + atributo + "='" + nuevo + "' RETURN n"
+    session.run(s)
+        .then(function (result) {
+
+            res.redirect('/');
+        }
+        )
+        .catch(
+            function (err) {
+                console.log(err)
+            }
+        )
+})
+
 app.post('/person/add', function (req, res) {
     let name = req.body.name;
     let year = req.body.year;
-    session.run('CREATE(n:Person{name:{nameParam}, born:{yearParam}}) RETURN n.name', { nameParam: name, yearParam: year})
+    session.run('CREATE(n:Person{name:{nameParam}, born:{yearParam}}) RETURN n.name', { nameParam: name, yearParam: year })
         .then(function (result) {
 
             res.redirect('/');
@@ -87,8 +124,26 @@ app.post('/relation/add', function (req, res) {
         )
 })
 
+app.post('/relation/delete', function (req, res) {
+    let node1 = req.body.nodo1;
+    let node2 = req.body.nodo2;
+    let relationship = req.body.relation;
+    let s = "MATCH(a {name:'" + node1 + "'})-[r:" + relationship + "]->(b {title:'" + node2 + "'}) DELETE r";
+    session.run(s)
+        .then(function (result) {
+            session.close();
+            res.redirect('/');
+        }
+        )
+        .catch(
+            function (err) {
+                console.log(err)
+            }
+        )
+})
+
 app.post('/movie/delete', function (req, res) {
-    session.run("MATCH(n:Movie{title:{titu}}) DELETE n",{titu:req.body.titulo})
+    session.run("MATCH(n:Movie{title:{titu}}) DELETE n", { titu: req.body.titulo })
         .then(function (result) {
             session.close();
             res.redirect('/');
@@ -102,7 +157,7 @@ app.post('/movie/delete', function (req, res) {
 })
 
 app.post('/person/delete', function (req, res) {
-    session.run("MATCH(n:Person{name:{no}}) DELETE n",{no:req.body.nombre})
+    session.run("MATCH(n:Person{name:{no}}) DELETE n", { no: req.body.nombre })
         .then(function (result) {
             session.close();
             res.redirect('/');
