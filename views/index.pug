@@ -7,9 +7,9 @@ block hero
                 h2.subtitle CRUD operations with a oriented graph database    
                 
 block content
-  .container(style="flex:1; padding:30px;")
+  .container(style="padding:30px;")
     .columns.is-multiline
-      .colum.is-one-quarter
+      .column.is-one-quarter
          form(method='POST' action='/movie/add')
           div.form-group
             label(class='label' for='title') TITLE:
@@ -17,29 +17,28 @@ block content
           div.form-group
             label(class='label' for='year') YEAR:
             input.form-control(class='input' type='text', placeholder='year' name='year')
-            button.btn.btn-primary(class='button is-link' type='submit') CREATE MOVIE
+          br  
+          button.btn.btn-primary(class='button is-link' type='submit') CREATE MOVIE
 
 
-      .colum.is-one-quarter
+      .column.is-one-quarter
          form(method='POST' action='/person/add')
           div.form-group
             label(class='label' for='name') NOMBRE:
             input#name.form-control(class='input' type='text', placeholder='Enter a name' name='name')
-          div.form-group
             label(class='label' for='year') BIRTH YEAR:
             input.form-control(class='input' type='text', placeholder='year' name='year')
-            button.btn.btn-primary(class='button is-link' type='submit') CREATE PERSON
+          br
+          button.btn.btn-primary(class='button is-link' type='submit') CREATE PERSON
 
 
-      .colum.is-one-quarter
+      .column.is-one-quarter
            form(method='POST' action='/relation/add')
             div.form-group
               label(class='label' for='nodo1') PEOPLE
               select(class='select' name="nodo1")
                 each actor in actors
                   option(value=actor.title) #{actor.title}
-
-            div.form-group
               label(class='label' for='relation') RELATIONSHIP TYPE
               select(class='select' name="relation")
                 option(value='ACTED_IN') ACTED_IN
@@ -48,22 +47,20 @@ block content
                 option(value='PRODUCED') PRODUCED
                 option(value='REVIEWED') REVIEWED
                 option(value='WROTE') WROTE
-            div.form-group
               label(class='label' for='nodo2') MOVIES
               select(class='select' name="nodo2")
                 each movie in movies
                   option(value=movie.title) #{movie.title} 
+            br      
             button.btn.btn-primary(class='button is-link' type='submit') CREATE RELATIONSHIP
 
-      .colum.is-one-quarter
+      .column.is-one-quarter
            form(method='POST' action='/relation/delete')
             div.form-group
               label(class='label' for='nodo1') PEOPLE
               select(class='select' name="nodo1")
                 each actor in actors
                   option(value=actor.title) #{actor.title}
-
-            div.form-group
               label(class='label' for='relation') RELATIONSHIP TYPE
               select(class='select' name="relation")
                 option(value='ACTED_IN') ACTED_IN
@@ -72,33 +69,35 @@ block content
                 option(value='PRODUCED') PRODUCED
                 option(value='REVIEWED') REVIEWED
                 option(value='WROTE') WROTE
-            div.form-group
               label(class='label' for='nodo2') MOVIES
               select(class='select' name="nodo2")
                 each movie in movies
                   option(value=movie.title) #{movie.title} 
+            br      
             button.btn.btn-primary(class='button is-link' type='submit') DELETE RELATIONSHIP      
     .columns.is-multiline    
-      .colum.is-one-quarter
+      .column.is-one-quarter
            form(method='POST' action='/movie/delete')
             div.form-group
               label(class='label' for='titulo') MOVIES
               select(class='select' name="titulo")
                 each movie in movies
-                  option(value=movie.title) #{movie.title} 
-              button.btn.btn-primary(class='button is-link' type='submit') DELETE MOVIE
+                  option(value=movie.title) #{movie.title}    
+            br
+            button.btn.btn-primary(class='button is-link' type='submit') DELETE MOVIE
     
               
-      .colum.is-one-quarter
+      .column.is-one-quarter
            form(method='POST' action='/person/delete')
             div.form-group
               label(class='label' for='nombre') PERSONS
               select(class='select' name="nombre")
                 each actor in actors
-                  option(value=actor.title) #{actor.title} 
-              button.btn.btn-primary(class='button is-link' type='submit') DELETE PERSON
+                  option(value=actor.title) #{actor.title}
+            br   
+            button.btn.btn-primary(class='button is-link' type='submit') DELETE PERSON
       
-      .colum.is-one-quarter
+      .column.is-one-quarter
            form(method='POST' action='/person/update')
             div.form-group
               label(class='label' for='name') PERSONS
@@ -113,9 +112,10 @@ block content
                 option(value='name') NAME
               label(class='label' for='dato') NEW VALUE
               input.form-control(class='input' type='text', placeholder='NEW VALUE' name='dato')
+            br  
             button.btn.btn-primary(class='button is-link' type='submit') UPDATE DATA       
       
-      .colum.is-one-quarter
+      .column.is-one-quarter
            form(method='POST' action='/movie/update')
             div.form-group
               label(class='label' for='title') MOVIES
@@ -131,4 +131,5 @@ block content
                 option(value='tagline') TAGLINE
               label(class='label' for='dato') NEW VALUE
               input.form-control(class='input' type='text', placeholder='NEW VALUE' name='dato')
+            br  
             button.btn.btn-primary(class='button is-link' type='submit') UPDATE DATA 
